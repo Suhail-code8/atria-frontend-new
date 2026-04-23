@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Mono:wght@700&display=swap');
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-background text-secondary antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-slate-900 font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* You can add custom utility extensions here if needed */
+}

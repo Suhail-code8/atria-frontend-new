@@ -1,0 +1,29 @@
+﻿src/api/announcement.api.ts(3,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/api/competition.api.ts(3,3): error TS1484: 'CompetitionGradePoints' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/api/competition.api.ts(4,3): error TS1484: 'CompetitionPlacePoints' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/api/competition.api.ts(5,3): error TS1484: 'CreateCompetitionItemPayload' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/auth/Login.tsx(5,20): error TS2307: Cannot find module '../components/Button' or its corresponding type declarations.
+src/auth/Login.tsx(6,19): error TS2307: Cannot find module '../components/Input' or its corresponding type declarations.
+src/auth/Login.tsx(8,49): error TS2307: Cannot find module '@react-oauth/google' or its corresponding type declarations.
+src/auth/Login.tsx(85,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/auth/Login.tsx(92,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/auth/Register.tsx(5,20): error TS2307: Cannot find module '../components/Button' or its corresponding type declarations.
+src/auth/Register.tsx(6,19): error TS2307: Cannot find module '../components/Input' or its corresponding type declarations.
+src/auth/Register.tsx(8,49): error TS2307: Cannot find module '@react-oauth/google' or its corresponding type declarations.
+src/layout/AppLayout.tsx(4,16): error TS6133: 'Copy' is declared but its value is never read.
+src/layout/AppLayout.tsx(5,20): error TS6133: 'useEffect' is declared but its value is never read.
+src/layout/AppLayout.tsx(6,1): error TS6133: 'getIO' is declared but its value is never read.
+src/layout/AppLayout.tsx(6,10): error TS2614: Module '"../api/axios"' has no exported member 'getIO'. Did you mean to use 'import getIO from "../api/axios"' instead?
+src/layout/AppLayout.tsx(10,25): error TS6133: 'setNotifications' is declared but its value is never read.
+src/pages/events/manage/Leaderboard.tsx(4,16): error TS6133: 'CardHeader' is declared but its value is never read.
+src/pages/events/manage/Leaderboard.tsx(4,28): error TS6133: 'CardTitle' is declared but its value is never read.
+src/pages/events/manage/Scoring.tsx(5,1): error TS6133: 'Input' is declared but its value is never read.
+src/pages/events/ParticipantDashboard.tsx(6,52): error TS6133: 'CardFooter' is declared but its value is never read.
+src/pages/events/ParticipantDashboard.tsx(9,28): error TS6133: 'Clock' is declared but its value is never read.
+src/types/index.ts(1,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(8,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(111,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(117,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(142,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(150,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/types/index.ts(194,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
