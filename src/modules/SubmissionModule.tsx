@@ -13,7 +13,7 @@ interface SubmissionModuleProps {
   onAdvanced: (data: any) => void;
 }
 
-export default function SubmissionModule({ config, participation, isLastStep, onAdvanced }: SubmissionModuleProps) {
+export default function SubmissionModule({ config, participation, onAdvanced }: SubmissionModuleProps) {
   const [submission, setSubmission] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);

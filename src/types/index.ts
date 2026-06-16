@@ -224,7 +224,8 @@ export interface Submission {
 export const UserRole = {
   ORGANIZER: 'ORGANIZER',
   PARTICIPANT: 'PARTICIPANT',
-  JUDGE: 'JUDGE'
+  JUDGE: 'JUDGE',
+  ADMIN: 'ADMIN'
 } as const
 export type UserRole = typeof UserRole[keyof typeof UserRole]
 

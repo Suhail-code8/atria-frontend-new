@@ -8,6 +8,7 @@ import { Sparkles, Download, Share2, Layers, Zap, Moon, Sun, Monitor, Wand2, Loa
 import { PosterEngine } from "../../../components/events/PosterEngine";
 import type { PosterEngineRef, PosterStyle } from "../../../components/events/PosterEngine";
 import { AnimatePresence,motion } from "framer-motion";
+import { showToast } from "../../../lib/toast";
 
 const STYLES: { id: PosterStyle; label: string; icon: any; desc: string; defaultPrompt: string }[] = [
   { 
@@ -114,7 +115,7 @@ export function Promotion() {
         setEvent(eventRes.data.data);
       }
     } catch (err: any) {
-      alert("Failed to generate poster: " + (err.response?.data?.message || err.message));
+      showToast.error("Failed to generate poster: " + (err.response?.data?.message || err.message));
     } finally {
       setGenerating(false);
       setGenerationStep("");

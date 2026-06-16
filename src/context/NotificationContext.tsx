@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { useAuth } from '../auth/AuthContext';
 import { notificationApi } from '../api/notification.api';
 import { env } from '../utils/env';
+import { showToast } from '../lib/toast';
 
 interface Notification {
   _id: string;
@@ -75,8 +76,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (user) {
       fetchNotifications();
 
-      const newSocket = io(env.API_URL || 'http://localhost:5000', {
+      const newSocket = io(env.SOCKET_URL, {
         withCredentials: true,
+        transports: ['websocket', 'polling'], // Ensure reliable connection
       });
 
       newSocket.on('connect', () => {
@@ -88,7 +90,13 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setNotifications(prev => [notification, ...prev].slice(0, 50));
         setUnreadCount(prev => prev + 1);
         
-        // Browser Notification feature can be added here
+        // Show real-time toast for immediate feedback
+        showToast.info(notification.title, {
+            description: notification.message,
+            duration: 5000,
+        });
+
+        // Browser Notification feature
         if ("Notification" in window && window.Notification.permission === "granted") {
             new window.Notification(notification.title, { body: notification.message });
         }

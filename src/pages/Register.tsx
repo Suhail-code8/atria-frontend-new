@@ -11,6 +11,7 @@ import { Button } from "../components/ui/Button";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import axiosInstance from "../api/axios";
 import { useState } from "react";
+import { showToast } from "../lib/toast";
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -38,7 +39,7 @@ export function Register() {
       setAccessToken(resp.data.data.accessToken);
       navigate("/dashboard/events");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Registration failed");
+      showToast.error(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -54,7 +55,7 @@ export function Register() {
       setAccessToken(accessToken);
       navigate("/dashboard/events");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Google registration failed");
+      showToast.error(err.response?.data?.message || "Google registration failed");
     } finally {
       setGoogleLoading(false);
     }
@@ -134,7 +135,7 @@ export function Register() {
           <div className="flex justify-center flex-col items-center gap-4">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
-              onError={() => alert("Google registration failed")}
+              onError={() => showToast.error("Google registration failed")}
               theme="outline"
               size="large"
               width="320"

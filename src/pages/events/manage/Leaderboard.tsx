@@ -35,13 +35,13 @@ export function Leaderboard() {
       .finally(() => setLoading(false));
 
     // Setup Socket
-    const socket: Socket = io(env.API_URL || 'http://localhost:5000', {
+    const socket: Socket = io(env.API_URL, {
       withCredentials: true
     });
     
     socket.emit("join_event_leaderboard", id);
     
-    socket.on("leaderboard:update", (data) => {
+    socket.on("leaderboard:update", (_data) => {
       // For simplicity, we just trigger a refetch of both if we get an update, 
       // or we can just expect indRes directly if socket is only for individuals.
       // Better: refetch to ensure we get team updates too, or wait for distinct socket events.
@@ -101,13 +101,13 @@ export function Leaderboard() {
 
       <div className="flex gap-4 mb-4">
         <Button 
-          variant={viewType === "individual" ? "default" : "outline"} 
+          variant={viewType === "individual" ? "primary" : "outline"} 
           onClick={() => setViewType("individual")}
         >
           Top Individuals
         </Button>
         <Button 
-          variant={viewType === "team" ? "default" : "outline"} 
+          variant={viewType === "team" ? "primary" : "outline"} 
           onClick={() => setViewType("team")}
         >
           Top Teams

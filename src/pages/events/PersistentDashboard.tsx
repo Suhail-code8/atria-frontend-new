@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Trophy, Star, Users, Upload, Megaphone, CheckCircle2, Lock,
-  Clock, ChevronRight, ExternalLink, User, Gavel, FileText,
+  Clock, ExternalLink, User, Gavel, FileText,
   LayoutGrid, Bell
 } from "lucide-react";
 import { participationApi } from "../../api/participation.api";
@@ -32,13 +32,13 @@ const cardVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1, y: 0,
-    transition: { delay: i * 0.08, duration: 0.4, ease: "easeOut" }
+    transition: { delay: i * 0.08, duration: 0.4, ease: "easeOut" as any }
   })
 };
 
 // ─── Sub-widgets ──────────────────────────────────────────────────────────────
 
-function TeamHubCard({ eventId, userId, team, loading, nodeConfig, featureConfig }: { eventId: string; userId: string; team: any; loading: boolean; nodeConfig?: any; featureConfig?: any }) {
+function TeamHubCard({ team, loading, nodeConfig }: { eventId: string; userId: string; team: any; loading: boolean; nodeConfig?: any; featureConfig?: any }) {
   if (loading) return <WidgetSkeleton />;
 
   return (
@@ -333,7 +333,7 @@ function JudgingFeedbackCard({ eventId, config }: { eventId: string; config?: an
   );
 }
 
-function AnnouncementsCard({ eventId, config }: { eventId: string; config?: any }) {
+function AnnouncementsCard({ eventId }: { eventId: string; config?: any }) {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -632,7 +632,7 @@ export function PersistentDashboard({ event, participation, featureModules = {} 
     { key: 'submissions', node: <SubmissionsCard eventId={eventId} /> },
     showJudgingFeedback && { key: 'judging',         node: <JudgingFeedbackCard eventId={eventId} config={fm.judgingFeedback?.config} /> },
     showAnnouncements   && { key: 'announcements',   node: <AnnouncementsCard eventId={eventId} config={fm.announcements?.config} /> },
-  ].filter(Boolean) as { key: string; node: JSX.Element }[];
+  ].filter(Boolean) as { key: string; node: React.ReactNode }[];
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">

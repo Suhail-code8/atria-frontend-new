@@ -6,9 +6,9 @@ import { resultApi } from "../../api/result.api";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
+import { showToast } from "../../lib/toast";
 import { 
   Gavel, 
-  Trophy, 
   Star, 
   CheckCircle2, 
   Users, 
@@ -99,7 +99,7 @@ export function JudgeEventConsole() {
       
       // Show mini toast or pulse effect could be added here
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to submit score");
+      showToast.error(err.response?.data?.message || "Failed to submit score");
     } finally {
       setSubmitting(prev => ({ ...prev, [item._id]: false }));
     }

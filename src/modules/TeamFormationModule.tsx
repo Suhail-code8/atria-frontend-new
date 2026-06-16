@@ -70,8 +70,10 @@ export default function TeamFormationModule({ config, participation, onAdvanced 
     setIsJoining(teamId);
     setError(null);
     try {
-      const res = await teamApi.joinTeam(teamId);
-      onAdvanced(res.data.data.participation); // Auto-advances in backend
+      await teamApi.joinTeam(teamId);
+      // Fetch updated participation to get the new workflow state after join auto-advance
+      const pRes = await participationApi.getMyParticipation(eventId);
+      onAdvanced(pRes.data.data);
     } catch (e: any) {
       setError(e?.response?.data?.message || "Failed to join team.");
       setIsJoining(null);
@@ -163,7 +165,7 @@ export default function TeamFormationModule({ config, participation, onAdvanced 
                     <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${isLeader ? "bg-amber-100 text-amber-800 border border-amber-200" : "bg-slate-100"}`}>
                       <User size={14} className="text-secondary" />
                       {memberName}
-                      {isLeader && <Shield size={12} className="text-amber-600" title="Team Leader" />}
+                      {isLeader && <Shield size={12} className="text-amber-600" />}
                     </div>
                   );
                 })}

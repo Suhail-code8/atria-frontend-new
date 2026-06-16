@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { showToast } from "../../lib/toast";
 import { participationApi } from "../../api/participation.api";
 import { eventsApi } from "../../api/events.api";
 import { ModuleRenderers } from "../../modules/ModuleRegistry";
@@ -51,7 +52,7 @@ export function ParticipantDashboard() {
       setParticipation(res.data.data.participation);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to advance");
+      showToast.error(err.response?.data?.message || "Failed to advance");
     } finally {
       setIsAdvancing(false);
     }
@@ -65,7 +66,7 @@ export function ParticipantDashboard() {
       setParticipation(res.data.data.participation);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to move back");
+      showToast.error(err.response?.data?.message || "Failed to move back");
     } finally {
       setIsRegressing(false);
     }
@@ -321,7 +322,7 @@ export function ParticipantDashboard() {
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                exit={{ opacity: 0, y: -20 }}
-               transition={{ duration: 0.4, ease: "easeOut" }}
+               transition={{ duration: 0.4, ease: "easeOut" as any }}
              >
                 <ActiveModule
                   config={currentNode?.config || currentNode?.data?.config || {}}

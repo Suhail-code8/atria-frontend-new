@@ -7,6 +7,7 @@ import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import { Megaphone, Trash2 } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 export function Announcements() {
   const { id } = useParams();
@@ -34,7 +35,7 @@ export function Announcements() {
       reset();
       fetchAnnouncements();
     } catch {
-      alert("Failed to broadcast announcement.");
+      showToast.error("Failed to broadcast announcement.");
     }
   };
 
@@ -44,7 +45,7 @@ export function Announcements() {
       await announcementApi.delete(announcementId);
       fetchAnnouncements();
     } catch {
-      alert("Failed to delete.");
+      showToast.error("Failed to delete announcement.");
     }
   };
 

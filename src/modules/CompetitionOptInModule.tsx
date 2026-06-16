@@ -5,6 +5,7 @@ import { participationApi } from "../api/participation.api";
 import { Button } from "../components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../components/ui/Card";
 import { Map, Trophy, CheckCircle } from "lucide-react";
+import { showToast } from "../lib/toast";
 
 interface CompetitionOptInModuleProps {
   config: any;
@@ -52,7 +53,7 @@ export default function CompetitionOptInModule({ config, participation, onAdvanc
 
   const handleOptIn = async (itemId: string) => {
     if (!myTeam) {
-       alert("You must be part of a team to opt in to a competition.");
+       showToast.warning("You must be part of a team to opt in to a competition.");
        return;
     }
     try {
@@ -66,13 +67,13 @@ export default function CompetitionOptInModule({ config, participation, onAdvanc
       });
       setEnrolledItemIds(prev => new Set([...prev, itemId]));
     } catch (err) {
-      alert("Failed to opt in to this track. Please check team capacity rules.");
+      showToast.error("Failed to opt in to this track. Please check team capacity rules.");
     }
   };
 
   const handleAdvance = async () => {
     if (enrolledItemIds.size === 0 && config.requireOneItem) {
-       alert("You must opt into at least one track to proceed.");
+       showToast.warning("You must opt into at least one track to proceed.");
        return;
     }
     setIsAdvancing(true);
@@ -80,7 +81,7 @@ export default function CompetitionOptInModule({ config, participation, onAdvanc
       const res = await participationApi.advance(participation._id);
       onAdvanced(res.data.data.participation);
     } catch {
-      alert("Failed to advance.");
+      showToast.error("Failed to advance. Please try again.");
     } finally {
       setIsAdvancing(false);
     }

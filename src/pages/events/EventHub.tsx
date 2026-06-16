@@ -6,6 +6,7 @@ import { useAuth } from "../../auth/AuthContext";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
 import { Calendar, MapPin, Users, IndianRupee } from "lucide-react";
+import { showToast } from "../../lib/toast";
 
 export function EventHub() {
   const { id } = useParams();
@@ -44,7 +45,7 @@ export function EventHub() {
     } catch (err: any) {
       console.error("Registration failed:", err);
       const message = err.response?.data?.message || "Failed to register for the event. Please try again.";
-      alert(message);
+      showToast.error(message);
     } finally {
       setIsRegistering(false);
     }

@@ -8,6 +8,7 @@ import { Input } from "../../../components/ui/Input";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../../../components/ui/Card";
 import { EventType } from "../../../types";
 import { Sparkles, Calendar, Type, Paperclip } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 const eventSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -42,7 +43,7 @@ export function CreateEvent() {
       }
     } catch (error) {
       console.error("Failed to create event:", error);
-      alert("Error creating event. Please ensure Title is unique and all fields are valid.");
+      showToast.error("Error creating event. Please ensure Title is unique and all fields are valid.");
     }
   };
 

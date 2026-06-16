@@ -7,6 +7,7 @@ import { Input } from "../components/ui/Input";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../components/ui/Card";
 import { CheckCircle2 } from "lucide-react";
 import { useState, useMemo } from "react";
+import { showToast } from "../lib/toast";
 
 interface RegistrationModuleProps {
   config: any;
@@ -76,7 +77,7 @@ export default function RegistrationModule({ config, participation, registration
     } catch (error: any) {
        console.error("Save & Advance Error:", error);
        const message = error.response?.data?.message || "Failed to save and advance. Please try again.";
-       alert(message);
+       showToast.error(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +111,7 @@ export default function RegistrationModule({ config, participation, registration
                  const res = await participationApi.advance(participation._id);
                  onAdvanced(res.data.data.participation);
                } catch (err: any) {
-                 alert(err.response?.data?.message || "Could not advance. You might need to fulfill more conditions.");
+                 showToast.error(err.response?.data?.message || "Could not advance. You might need to fulfill more conditions.");
                } finally {
                  setIsSubmitting(false);
                }

@@ -4,6 +4,7 @@ import { participationApi } from "../../../api/participation.api";
 import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/Card";
 import { Badge } from "../../../components/ui/Badge";
 import { Search } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 export function Participants() {
   const { id } = useParams();
@@ -31,7 +32,7 @@ export function Participants() {
       await participationApi.updateParticipationStatus(participationId, status as any);
       fetchParticipants();
     } catch {
-      alert("Failed to update status. Please try again.");
+      showToast.error("Failed to update participant status. Please try again.");
     } finally {
       setUpdatingId(null);
     }

@@ -10,6 +10,7 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../components/ui/Card";
 import { Gavel, Info, CheckCircle2, Star, MessageSquare, BookOpen, Trophy } from "lucide-react";
+import { showToast } from "../lib/toast";
 
 interface JudgingModuleProps {
   config: any;
@@ -269,12 +270,12 @@ export default function JudgingModule({ config, participation, isLastStep, onAdv
                           if (item.type === 'INDIVIDUAL') {
                              setSelectedParticipantId(prev => ({ ...prev, [item._id]: "" }));
                              setScores(prev => ({ ...prev, [item._id]: {} }));
-                             alert("Score saved for participant.");
+                             showToast.success("Score saved for participant.");
                           } else {
                              setSubmitted((prev) => ({ ...prev, [item._id]: true }));
                           }
                         } catch (e: any) {
-                          alert(e?.response?.data?.message || "Failed to submit score. Ensure entries exist for this item.");
+                          showToast.error(e?.response?.data?.message || "Failed to submit score. Ensure entries exist for this item.");
                         } finally {
                           setSubmitting((prev) => ({ ...prev, [item._id]: false }));
                         }
@@ -299,7 +300,7 @@ export default function JudgingModule({ config, participation, isLastStep, onAdv
     participationApi
       .advance(participation._id)
       .then((res) => onAdvanced(res.data.data.participation))
-      .catch(() => alert("Waiting for official advancement. Please check back later."));
+      .catch(() => showToast.warning("Waiting for official advancement. Please check back later."));
   };
 
   return (

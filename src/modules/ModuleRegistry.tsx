@@ -1,17 +1,19 @@
+import React from 'react';
 import RegistrationModule from './RegistrationModule';
 import PaymentModule from './PaymentModule';
 import TeamFormationModule from './TeamFormationModule';
 import SubmissionModule from './SubmissionModule';
-import LeaderboardModule from './LeaderboardModule';
-import JudgingModule from './JudgingModule';
 import CompetitionOptInModule from './CompetitionOptInModule';
+import JudgingModule from './JudgingModule';
+import LeaderboardModule from './LeaderboardModule';
 
-export const ModuleRenderers: Record<string, React.ComponentType<any>> = {
+export const ModuleRenderers: Record<string, React.FC<any>> = {
   REGISTRATION: RegistrationModule,
   PAYMENT: PaymentModule,
   TEAM_FORMATION: TeamFormationModule,
-  COMPETITION_OPT_IN: CompetitionOptInModule,
   SUBMISSION: SubmissionModule,
+  COMPETITION_OPT_IN: CompetitionOptInModule,
+  JUDGING: JudgingModule,
   LEADERBOARD: LeaderboardModule,
-  JUDGING_ROUND: JudgingModule,
+  ONBOARDING_COMPLETE: () => null,
 };

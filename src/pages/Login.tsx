@@ -10,6 +10,7 @@ import { Button } from "../components/ui/Button";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import axiosInstance from "../api/axios";
 import { useState } from "react";
+import { showToast } from "../lib/toast";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -34,7 +35,7 @@ export function Login() {
       setAccessToken(resp.data.data.accessToken);
       navigate("/dashboard/events");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Login failed");
+      showToast.error(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -50,7 +51,7 @@ export function Login() {
       setAccessToken(accessToken);
       navigate("/dashboard/events");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Google login failed");
+      showToast.error(err.response?.data?.message || "Google login failed");
     } finally {
       setGoogleLoading(false);
     }
@@ -106,7 +107,7 @@ export function Login() {
           <div className="flex justify-center flex-col items-center gap-4">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
-              onError={() => alert("Google login failed")}
+              onError={() => showToast.error("Google login failed")}
               theme="outline"
               size="large"
               width="320"

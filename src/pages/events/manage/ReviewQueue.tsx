@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../../../c
 import { Badge } from "../../../components/ui/Badge";
 import { Button } from "../../../components/ui/Button";
 import { FileText, CheckCircle, XCircle } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 export function ReviewQueue() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ export function ReviewQueue() {
       await submissionsApi.updateSubmissionStatus(id!, subId, status as any);
       fetchQueue();
     } catch {
-      alert("Failed to update status.");
+      showToast.error("Failed to update submission status.");
     }
   };
 

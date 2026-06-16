@@ -6,6 +6,7 @@ import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
 import { Slider } from "../../../components/ui/Slider";
 import { Trophy, Star } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 export function Scoring() {
   const { id } = useParams();
@@ -37,13 +38,13 @@ export function Scoring() {
     if (!activeSub) return;
     try {
       await submissionsApi.reviewSubmission(id!, activeSub._id, { score, comment, status: 'ACCEPTED' as any });
-      alert("Score submitted!");
+      showToast.success("Score submitted!");
       setScore(50);
       setComment("");
       setActiveSub(null);
       fetchSubmissions();
     } catch {
-      alert("Failed to submit score.");
+      showToast.error("Failed to submit score. Please try again.");
     }
   };
 

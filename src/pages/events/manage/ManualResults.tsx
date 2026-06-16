@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Award, Trophy } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 export function ManualResults() {
   const { id } = useParams();
@@ -43,7 +44,7 @@ export function ManualResults() {
   const handleSubmit = async () => {
     if (!id || !selectedItem || !selectedTeam) return;
     if (!place && !grade) {
-      alert("Please provide either a Place (e.g. 1, 2, 3) or a Grade (e.g. A, B, C).");
+      showToast.warning("Please provide either a Place (e.g. 1, 2, 3) or a Grade (e.g. A, B, C).");
       return;
     }
     
@@ -58,7 +59,7 @@ export function ManualResults() {
         place: place ? parseInt(place) : undefined,
         grade: grade || undefined
       });
-      alert("Result submitted successfully! Leaderboard updated.");
+      showToast.success("Result submitted! Leaderboard updated.");
       setPlace("");
       setGrade("");
       if (item?.type !== 'INDIVIDUAL') {
@@ -67,7 +68,7 @@ export function ManualResults() {
         setSelectedParticipant("");
       }
     } catch (err) {
-      alert("Failed to submit result.");
+      showToast.error("Failed to submit result. Please try again.");
     }
   };
 

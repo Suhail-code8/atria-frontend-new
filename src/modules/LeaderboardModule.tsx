@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../compone
 import { Trophy, Star, Users, User, Lock } from "lucide-react";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
+import { showToast } from "../lib/toast";
 
 interface LeaderboardModuleProps {
   config: any;
@@ -84,7 +85,7 @@ export default function LeaderboardModule({
     participationApi
       .advance(participation._id)
       .then((res) => onAdvanced(res.data.data.participation))
-      .catch(() => alert("Could not advance. Please try again later."));
+      .catch(() => showToast.warning("Could not advance. Please try again later."));
   };
 
   // ── Visibility gate: organizers_only ──────────────────────────────────────

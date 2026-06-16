@@ -10,6 +10,7 @@ import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import { EventStatus, type Event } from "../../../types";
 import { Loader2, Rocket, RotateCcw, Play, CheckCircle2, Archive, XCircle } from "lucide-react";
+import { showToast } from "../../../lib/toast";
 
 const displayDate = (d: string | Date | undefined) => {
   if (!d) return "";
@@ -69,10 +70,10 @@ export function Settings() {
     setTransitioning(target);
     try {
       await eventsApi.transitionEvent(id, target);
-      alert(`Event status updated to ${target}`);
-      await fetchEvent(); // Refresh state
+      showToast.success(`Event status updated to ${target}`);
+      await fetchEvent();
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to transition event.");
+      showToast.error(err.response?.data?.message || "Failed to transition event.");
     } finally {
       setTransitioning(null);
     }
@@ -81,10 +82,10 @@ export function Settings() {
   const onSubmit = async (data: any) => {
     try {
       await eventsApi.updateEvent(id!, data);
-      alert("Settings saved!");
+      showToast.success("Settings saved!");
       await fetchEvent();
     } catch {
-      alert("Failed to save settings.");
+      showToast.error("Failed to save settings.");
     }
   };
 

@@ -23,7 +23,6 @@ import CustomNode, { type ModuleType } from "../../../components/workflow/Custom
 import { ConfigPanel } from "../../../components/workflow/ConfigPanel";
 import { FeatureConfigModal } from "../../../components/workflow/FeatureConfigModal";
 
-// ─── Module Classification ────────────────────────────────────────────────────
 
 const ONBOARDING_MODULES = [
   { type: 'REGISTRATION',  label: 'Registration',  description: 'Collect participant info', icon: <ClipboardList size={18} /> },
@@ -83,7 +82,6 @@ const DEFAULT_FEATURE_MODULES: FeatureModules = {
   announcements:   { enabled: false, config: {} },
 };
 
-// ─── Toast ────────────────────────────────────────────────────────────────────
 
 function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   useEffect(() => {
@@ -99,11 +97,8 @@ function Toast({ message, onDismiss }: { message: string; onDismiss: () => void 
   );
 }
 
-// ─── Feature Module Key Set (for drop guard) ──────────────────────────────────
-// These should NOT be dropped onto the canvas — they live in feature checkboxes only
 const FEATURE_MODULE_TYPES = new Set(['LEADERBOARD', 'JUDGING_ROUND', 'ANNOUNCEMENTS']);
 
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export function WorkflowBuilder() {
   const nodeTypes = useMemo(() => ({
@@ -131,7 +126,6 @@ export function WorkflowBuilder() {
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
-  // ─── Load workflow ──────────────────────────────────────────────────────────
   useEffect(() => {
     if (!id) return;
     eventsApi.getEvent(id)
@@ -140,8 +134,6 @@ export function WorkflowBuilder() {
         const wf = res.data.data.workflow;
         if (wf && wf.nodes && wf.nodes.length > 0) {
           const migratedNodes = wf.nodes
-            // Filter out old LEADERBOARD/JUDGING_ROUND nodes that were sequential
-            // (they're now feature modules). Keep ONBOARDING_COMPLETE.
             .filter((node: any) => {
               const t = node.data?.moduleType || node.type;
               return !FEATURE_MODULE_TYPES.has(t) || t === 'ONBOARDING_COMPLETE';
@@ -174,7 +166,6 @@ export function WorkflowBuilder() {
           }]);
         }
 
-        // Load feature modules
         if (wf?.featureModules) {
           setFeatureModules({
             leaderboard:     wf.featureModules.leaderboard     || { enabled: false, config: {} },
@@ -184,7 +175,6 @@ export function WorkflowBuilder() {
           });
         }
         
-        // Fetch competition items to determine leaderboard availability
         return competitionApi.getItems(id);
       })
       .then((res: any) => {
@@ -219,11 +209,10 @@ export function WorkflowBuilder() {
     setSelectedNode(null);
   }, [setNodes, setEdges]);
 
-  // ─── Feature Dependency Sync ────────────────────────────────────────────────
   const getFeatureStatus = useCallback((key: FeatureKey): { available: boolean; reason?: string } => {
     const hasTeamFormation = nodes.some((n: any) => n.type === 'TEAM_FORMATION');
     const hasJudgingRound = nodes.some((n: any) => n.type === 'JUDGING_ROUND');
-    const isCompetition = eventData?.isCompetition;
+    // const isCompetition = eventData?.isCompetition;
     const canHaveLeaderboard = hasJudgingRound || hasCompetitionItems;
 
     switch (key) {
@@ -263,7 +252,6 @@ export function WorkflowBuilder() {
     });
   }, [getFeatureStatus]);
 
-  // ─── Duplicate detection ───────────────────────────────────────────────────
   useEffect(() => {
     setNodes((nds) => {
       const typeCounts: Record<string, number> = {};
@@ -285,11 +273,9 @@ export function WorkflowBuilder() {
     });
   }, [nodes.length, setNodes]);
 
-  // ─── Save ──────────────────────────────────────────────────────────────────
   const onSave = async () => {
     setSaving(true);
     try {
-      // Auto-insert ONBOARDING_COMPLETE terminal node if not present
       let finalNodes = nodes.map(node => ({
         ...node,
         type: node.data?.moduleType || node.type,
@@ -299,7 +285,6 @@ export function WorkflowBuilder() {
 
       const hasTerminal = finalNodes.some(n => n.type === 'ONBOARDING_COMPLETE');
       if (!hasTerminal) {
-        // Find rightmost node position to place terminal to the right
         const maxX = finalNodes.reduce((max: number, n: any) => Math.max(max, (n.position?.x || 0) + 220), 0);
         const avgY = finalNodes.reduce((sum: number, n: any) => sum + (n.position?.y || 150), 0) / (finalNodes.length || 1);
 
@@ -318,7 +303,6 @@ export function WorkflowBuilder() {
         };
         finalNodes = [...finalNodes, terminalNode];
 
-        // Wire the last non-terminal node to the terminal if it has no outgoing edge
         const nonTerminal = finalNodes.filter(n => n.type !== 'ONBOARDING_COMPLETE');
         const lastNode = nonTerminal[nonTerminal.length - 1];
         const currentEdges = edges;
@@ -336,7 +320,6 @@ export function WorkflowBuilder() {
           setEdges(finalEdges);
         }
 
-        // Also update React Flow state so user can see the new node
         setNodes(finalNodes);
 
         await eventsApi.updateEventWorkflow(id!, {
@@ -378,7 +361,6 @@ export function WorkflowBuilder() {
       const type = event.dataTransfer.getData('application/reactflow') as ModuleType;
       if (typeof type === 'undefined' || !type) return;
 
-      // ── Feature module drop guard ──────────────────────────────────────────
       if (FEATURE_MODULE_TYPES.has(type)) {
         setToast("This is a dashboard feature, not a step in the onboarding flow. Enable it in the Features panel.");
         return;
@@ -431,7 +413,6 @@ export function WorkflowBuilder() {
 
     setFeatureModules(prev => {
       const isNowEnabled = !prev[key].enabled;
-      // Auto-open modal on first enable if no config exists
       if (isNowEnabled && Object.keys(prev[key].config || {}).length === 0) {
         setActiveFeatureModal(key);
       }
