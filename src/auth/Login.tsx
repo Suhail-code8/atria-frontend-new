@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../api/auth.api'
 import { useAuth } from './AuthContext'
-import Button from '../components/Button'
-import Input from '../components/Input'
+import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
 import { AlertCircle } from 'lucide-react'
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import { GoogleLogin } from '@react-oauth/google'
+import type { CredentialResponse } from '@react-oauth/google'
 import axiosInstance from '../api/axios'
 
 export const Login = () => {
@@ -82,14 +83,14 @@ export const Login = () => {
             label="Email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             required
           />
           <Input
             label="Password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             required
           />
           <Button type="submit" variant="primary" isLoading={isLoading} className="w-full">

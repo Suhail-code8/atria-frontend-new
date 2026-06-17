@@ -5,10 +5,11 @@ import { cn } from "../../utils/cn";
 export interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
+  isLoading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", isLoading = false, ...props }, ref) => {
     const variants = {
       primary: "bg-primary text-white hover:bg-primary-hover shadow-sm",
       secondary: "bg-secondary text-white hover:bg-secondary-hover shadow-sm",
@@ -34,8 +35,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           sizes[size],
           className
         )}
+        disabled={isLoading || (props as any).disabled}
         {...props}
-      />
+      >
+        {isLoading ? (
+          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        ) : (
+          props.children
+        )}
+      </motion.button>
     );
   }
 );

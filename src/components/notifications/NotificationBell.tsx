@@ -65,8 +65,9 @@ export const NotificationBell: React.FC = () => {
         )} />
         {unreadCount > 0 && (
           <motion.span
-            initial={{ scale: 0, bounce: 0.5 }}
+            initial={{ scale: 0 }}
             animate={{ scale: 1 }}
+            transition={{ type: 'spring', bounce: 0.5 }}
             className="absolute top-1.5 right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-black text-white ring-2 ring-white shadow-sm"
           >
             {unreadCount > 9 ? '9+' : unreadCount}

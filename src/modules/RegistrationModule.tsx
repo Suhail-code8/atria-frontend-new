@@ -25,9 +25,9 @@ export default function RegistrationModule({ config, participation, registration
 
   // Requirement: Dynamic Zod Schema
   const schema = useMemo(() => {
-    const shape: any = {};
+    const shape: Record<string, z.ZodTypeAny> = {};
     fields.forEach((field: any) => {
-      let fieldSchema = z.any();
+      let fieldSchema: z.ZodTypeAny = z.any();
       
       if (field.type === 'email') {
         fieldSchema = z.string().email("Invalid email address");

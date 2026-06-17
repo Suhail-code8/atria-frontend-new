@@ -83,18 +83,17 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       newSocket.on('connect', () => {
         console.log('Connected to socket for notifications');
-        newSocket.emit('join_user_room', user.id || user._id);
+        // user object may have _id depending on auth source
+        // emit whichever is available
+        newSocket.emit('join_user_room', (user as any)._id || (user as any).id);
       });
 
       newSocket.on('new_notification', (notification: Notification) => {
         setNotifications(prev => [notification, ...prev].slice(0, 50));
         setUnreadCount(prev => prev + 1);
         
-        // Show real-time toast for immediate feedback
-        showToast.info(notification.title, {
-            description: notification.message,
-            duration: 5000,
-        });
+        // Show real-time toast for immediate feedback (sonner toast accepts a single message)
+        showToast.info(`${notification.title}: ${notification.message}`);
 
         // Browser Notification feature
         if ("Notification" in window && window.Notification.permission === "granted") {

@@ -30,9 +30,9 @@ export default function CompetitionOptInModule({ config, participation, onAdvanc
           competitionApi.getEntriesByEvent(eventId)
         ]);
 
-        const team = teamsRes.data.data.find(t => 
-          t.members.some(m => m.user._id === participation.user._id || m.user === participation.user._id)
-        );
+          const team = teamsRes.data.data.find((t: any) => 
+            t.members.some((m: any) => m.user._id === participation.user._id || m.user === participation.user._id)
+          );
         
         setItems(itemsRes.data.data);
         setMyTeam(team || null);
@@ -58,7 +58,7 @@ export default function CompetitionOptInModule({ config, participation, onAdvanc
     }
     try {
       // Opting in all members of the team for simplicity in this workflow
-      const participantsToEnroll = myTeam.members.map(m => m.user._id || m.user);
+      const participantsToEnroll = myTeam.members.map((m: any) => m.user._id || m.user);
       await competitionApi.syncEntry({
          event: participation.event._id || participation.event,
          item: itemId,
