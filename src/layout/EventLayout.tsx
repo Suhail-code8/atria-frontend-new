@@ -36,8 +36,9 @@ export function EventLayout() {
   ];
 
   return (
-    <div className="flex bg-background rounded-xl overflow-hidden min-h-[80vh] border border-secondary/10 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
-      {/* Sidebar */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex bg-background rounded-xl overflow-hidden min-h-[80vh] border border-secondary/10 shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+        {/* Sidebar */}
       <aside className="w-64 bg-surface border-r border-secondary/10 flex flex-col p-4">
         <div className="mb-6 px-3">
           <h2 className="text-xs font-bold tracking-wider text-secondary uppercase">Event Management</h2>
@@ -68,6 +69,7 @@ export function EventLayout() {
       <main className="flex-1 p-6 overflow-y-auto bg-background">
         <Outlet />
       </main>
+    </div>
     </div>
   );
 }

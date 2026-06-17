@@ -19,7 +19,7 @@ export function MyRegistrations() {
   if (loading) return <div className="text-center py-20">Loading...</div>;
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div>
         <h2 className="text-2xl font-bold tracking-tight">My Registrations</h2>
         <p className="text-secondary mt-1">Events and competitions you are participating in.</p>
