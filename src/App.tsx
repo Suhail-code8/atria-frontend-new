@@ -89,9 +89,9 @@ function App() {
             <Route path="register" element={<Register />} />
 
             {/* Protected Routes - Participant & Dashboards */}
-            <Route path="dashboard/registrations" element={<ProtectedRoute><MyRegistrations /></ProtectedRoute>} />
-            <Route path="dashboard/events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
-            <Route path="dashboard/events/:id/*" element={<ProtectedRoute><DashboardEventRedirect /></ProtectedRoute>} />
+            <Route path="dashboard/registrations" element={<ProtectedRoute roles={['PARTICIPANT']}><MyRegistrations /></ProtectedRoute>} />
+            <Route path="dashboard/events" element={<ProtectedRoute roles={['ORGANIZER']}><MyEvents /></ProtectedRoute>} />
+            <Route path="dashboard/events/:id/*" element={<ProtectedRoute roles={['ORGANIZER']}><DashboardEventRedirect /></ProtectedRoute>} />
             <Route path="dashboard/assignments" element={<ProtectedRoute roles={['JUDGE']}><JudgeAssignments /></ProtectedRoute>} />
             
             {/* Event Hub Public view */}

@@ -38,12 +38,25 @@ export function Register() {
 
   const selectedRole = watch("role");
 
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'PARTICIPANT') navigate('/dashboard/registrations');
+      else if (user.role === 'ORGANIZER') navigate('/dashboard/events');
+      else if (user.role === 'JUDGE') navigate('/dashboard/assignments');
+      else navigate('/');
+    }
+  }, [user, navigate]);
+
   const onSubmit = async (data: RegisterFormValues) => {
     try {
       const resp = await authApi.register(data.name, data.email, data.password, data.role);
-      setUser(resp.data.data.user);
+      const loggedUser = resp.data.data.user;
+      setUser(loggedUser);
       setAccessToken(resp.data.data.accessToken);
-      navigate("/dashboard/events");
+      if (loggedUser.role === 'PARTICIPANT') navigate('/dashboard/registrations');
+      else if (loggedUser.role === 'ORGANIZER') navigate('/dashboard/events');
+      else if (loggedUser.role === 'JUDGE') navigate('/dashboard/assignments');
+      else navigate('/');
     } catch (err: any) {
       showToast.error(err.response?.data?.message || "Registration failed");
     }
@@ -56,10 +69,13 @@ export function Register() {
     setGoogleLoading(true);
     try {
       const response = await axiosInstance.post('/auth/google', { credential });
-      const { accessToken, user } = response.data.data;
-      setUser(user);
+      const { accessToken, user: loggedUser } = response.data.data;
+      setUser(loggedUser);
       setAccessToken(accessToken);
-      navigate("/dashboard/events");
+      if (loggedUser.role === 'PARTICIPANT') navigate('/dashboard/registrations');
+      else if (loggedUser.role === 'ORGANIZER') navigate('/dashboard/events');
+      else if (loggedUser.role === 'JUDGE') navigate('/dashboard/assignments');
+      else navigate('/');
     } catch (err: any) {
       showToast.error(err.response?.data?.message || "Google registration failed");
     } finally {
