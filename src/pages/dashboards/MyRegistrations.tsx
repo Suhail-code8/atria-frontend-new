@@ -19,10 +19,10 @@ export function MyRegistrations() {
   if (loading) return <div className="text-center py-20">Loading...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">My Registrations</h2>
-        <p className="text-secondary mt-1">Events and competitions you are participating in.</p>
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900">My Registrations</h2>
+        <p className="text-slate-500 mt-2">Events and competitions you are participating in.</p>
       </div>
 
       {registrations.length === 0 ? (
@@ -35,7 +35,7 @@ export function MyRegistrations() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {registrations.map((participation) => (
             <Card key={participation._id} className="flex flex-col h-full hover:shadow-elevated transition-shadow">
               {participation.event?.bannerUrl && (

@@ -21,15 +21,15 @@ export function MyEvents() {
   if (loading) return <div className="text-center py-20">Loading...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">My Managed Events</h2>
-          <p className="text-secondary mt-1">Manage events you've created.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">My Managed Events</h2>
+          <p className="text-slate-500 mt-2">Manage events you've created.</p>
         </div>
         {/* Placeholder link for creation, usually handled in settings or new wizard */}
         <Link to="/events/create">
-          <Button className="gap-2"><PlusCircle size={18} /> Create Event</Button>
+          <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"><PlusCircle size={18} /> Create Event</Button>
         </Link>
       </div>
 
@@ -40,7 +40,7 @@ export function MyEvents() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {events.map((event) => (
             <Card key={event._id} className="flex flex-col h-full hover:shadow-elevated transition-shadow">
               <CardHeader className="flex-none">
