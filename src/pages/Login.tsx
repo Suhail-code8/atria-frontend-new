@@ -7,7 +7,7 @@ import { authApi } from "../api/auth.api";
 import { Input } from "../components/ui/Input";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import axiosInstance from "../api/axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { showToast } from "../lib/toast";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 
@@ -19,7 +19,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function Login() {
-  const { setUser, setAccessToken } = useAuth();
+  const { user, setUser, setAccessToken } = useAuth();
   const navigate = useNavigate();
   const [googleLoading, setGoogleLoading] = useState(false);
 

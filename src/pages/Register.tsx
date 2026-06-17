@@ -7,7 +7,7 @@ import { authApi } from "../api/auth.api";
 import { UserRole } from "../types";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import axiosInstance from "../api/axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { showToast } from "../lib/toast";
 import { User, Mail, Lock, ArrowRight, Rocket, Megaphone, Scale } from "lucide-react";
 
@@ -27,7 +27,7 @@ const roleOptions = [
 ];
 
 export function Register() {
-  const { setUser, setAccessToken } = useAuth();
+  const { user, setUser, setAccessToken } = useAuth();
   const navigate = useNavigate();
   const [googleLoading, setGoogleLoading] = useState(false);
 
