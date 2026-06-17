@@ -97,6 +97,7 @@ export interface Event {
   _id: string
   title: string
   description: string
+  location?: string
   posterUrl?: string
   eventType: EventType
   isCompetition?: boolean
