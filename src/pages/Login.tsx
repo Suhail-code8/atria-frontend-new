@@ -119,6 +119,7 @@ export function Login() {
                   <input
                     type="password"
                     placeholder="••••••••"
+                    autoComplete="current-password"
                     {...register("password")}
                     className="w-full h-12 pl-11 pr-4 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 placeholder:text-slate-400 input-glow transition-all duration-200 bg-slate-50/50 focus:bg-white"
                   />

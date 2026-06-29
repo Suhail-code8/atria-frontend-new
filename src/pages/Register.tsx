@@ -58,7 +58,25 @@ export function Register() {
       else if (loggedUser.role === 'JUDGE') navigate('/dashboard/assignments');
       else navigate('/');
     } catch (err: any) {
-      showToast.error(err.response?.data?.message || "Registration failed");
+      // If the backend returned 500 but the user was actually created
+      // (e.g., email notification failed), silently try to log in instead.
+      if (err.response?.status === 500) {
+        try {
+          const loginResp = await authApi.login(data.email, data.password);
+          const loggedUser = loginResp.data.data.user;
+          setUser(loggedUser);
+          setAccessToken(loginResp.data.data.accessToken);
+          if (loggedUser.role === 'PARTICIPANT') navigate('/dashboard/registrations');
+          else if (loggedUser.role === 'ORGANIZER') navigate('/dashboard/events');
+          else if (loggedUser.role === 'JUDGE') navigate('/dashboard/assignments');
+          else navigate('/');
+          return;
+        } catch {
+          // login also failed — show original error
+        }
+      }
+      const message = err.response?.data?.message || "Registration failed. Please try again.";
+      showToast.error(message);
     }
   };
 
@@ -144,6 +162,7 @@ export function Register() {
                   <input
                     type="password"
                     placeholder="••••••••"
+                    autoComplete="new-password"
                     {...register("password")}
                     className="w-full h-12 pl-11 pr-4 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 placeholder:text-slate-400 input-glow transition-all duration-200 bg-slate-50/50 focus:bg-white"
                   />
