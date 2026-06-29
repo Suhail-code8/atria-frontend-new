@@ -45,15 +45,14 @@ export default function PaymentModule({ config, participation, isLastStep, onAdv
         description: `Payment for ${participation.event?.title || 'Event'}`,
         handler: async (response: any) => {
           try {
-            await participationApi.verifyPayment({
+            const verifyRes = await participationApi.verifyPayment({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             });
             
-            // On success, advance the workflow
-            const advanceRes = await participationApi.advance(participation._id);
-            onAdvanced(advanceRes.data.data.participation);
+            // Backend verifyPayment already auto-advances the workflow
+            onAdvanced((verifyRes.data as any).data);
           } catch (err) {
             setError("Payment verification failed. Please contact support.");
           }
