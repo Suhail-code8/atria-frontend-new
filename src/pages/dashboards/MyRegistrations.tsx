@@ -12,7 +12,8 @@ export function MyRegistrations() {
 
   useEffect(() => {
     participationApi.getMyRegistrations()
-      .then((res: any) => setRegistrations(res.data.data))
+      .then((res: any) => setRegistrations(res.data.data || []))
+      .catch(() => setRegistrations([]))
       .finally(() => setLoading(false));
   }, []);
 
@@ -46,7 +47,7 @@ export function MyRegistrations() {
               <CardHeader className="flex-none">
                 <div className="flex justify-between items-start gap-4 mb-2">
                   <CardTitle className="line-clamp-2">{participation.event?.title || 'Unknown Event'}</CardTitle>
-                  <Badge variant={participation.status === 'CONFIRMED' ? 'success' : 'secondary'}>
+                  <Badge variant={participation.status === 'REGISTERED' || participation.status === 'APPROVED' ? 'success' : 'secondary'}>
                     {participation.status}
                   </Badge>
                 </div>

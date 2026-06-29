@@ -23,10 +23,11 @@ export function Scoring() {
     setLoading(true);
     submissionsApi.getEventSubmissions(id)
       .then((res: any) => {
-        const subs = res.data.data.filter((s:any) => s.status === 'ACCEPTED' && !s.review);
+        const subs = (res.data.data || []).filter((s:any) => s.status === 'ACCEPTED' && !s.review);
         setSubmissions(subs);
         if (subs.length > 0 && !activeSub) setActiveSub(subs[0]);
       })
+      .catch(() => setSubmissions([]))
       .finally(() => setLoading(false));
   };
 

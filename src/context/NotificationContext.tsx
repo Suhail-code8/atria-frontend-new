@@ -39,8 +39,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setLoading(true);
     try {
       const response = await notificationApi.getNotifications();
-      // Backend returns { success: true, data: [...] }
-      const data = response.data || response.data?.data || [];
+      // axios wraps: response.data = backend JSON = { success, data: [...] }
+      const data: Notification[] = response.data?.data ?? [];
       setNotifications(Array.isArray(data) ? data : []);
       setUnreadCount(Array.isArray(data) ? data.filter((n: Notification) => !n.read).length : 0);
     } catch (error) {

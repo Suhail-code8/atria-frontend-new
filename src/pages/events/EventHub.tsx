@@ -55,7 +55,7 @@ export function EventHub() {
   if (!event) return <div className="text-center py-20 text-danger">Event not found.</div>;
 
   return (
-    <div className="max-w-5xl mx-auto pb-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
       {/* Hero Banner */}
       <div className="relative w-full h-[400px] rounded-2xl overflow-hidden mb-8 shadow-elevated">
         <div className="absolute inset-0 bg-slate-900/40 z-10" />

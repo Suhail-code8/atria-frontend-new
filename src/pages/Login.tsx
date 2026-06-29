@@ -19,7 +19,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function Login() {
-  const { user, setUser, setAccessToken } = useAuth();
+  const { user, setUser, setAccessToken, isLoading } = useAuth();
   const navigate = useNavigate();
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -28,13 +28,13 @@ export function Login() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (!isLoading && user) {
       if (user.role === 'PARTICIPANT') navigate('/dashboard/registrations');
       else if (user.role === 'ORGANIZER') navigate('/dashboard/events');
       else if (user.role === 'JUDGE') navigate('/dashboard/assignments');
       else navigate('/');
     }
-  }, [user, navigate]);
+  }, [user, navigate, isLoading]);
 
   const onSubmit = async (data: LoginFormValues) => {
     try {

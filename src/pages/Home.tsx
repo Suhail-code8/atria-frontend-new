@@ -14,7 +14,7 @@ export function Home() {
       try {
         setIsLoading(true);
         const response = await eventsApi.listEvents("PUBLISHED");
-        setEvents(response.data.data);
+        setEvents(response.data.data || []);
       } catch (err: any) {
         console.error("Failed to fetch events:", err);
         setError("Unable to load events at this time. Please try again later.");

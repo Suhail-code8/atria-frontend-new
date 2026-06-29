@@ -27,7 +27,7 @@ const roleOptions = [
 ];
 
 export function Register() {
-  const { user, setUser, setAccessToken } = useAuth();
+  const { user, setUser, setAccessToken, isLoading } = useAuth();
   const navigate = useNavigate();
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -39,13 +39,13 @@ export function Register() {
   const selectedRole = watch("role");
 
   useEffect(() => {
-    if (user) {
+    if (!isLoading && user) {
       if (user.role === 'PARTICIPANT') navigate('/dashboard/registrations');
       else if (user.role === 'ORGANIZER') navigate('/dashboard/events');
       else if (user.role === 'JUDGE') navigate('/dashboard/assignments');
       else navigate('/');
     }
-  }, [user, navigate]);
+  }, [user, navigate, isLoading]);
 
   const onSubmit = async (data: RegisterFormValues) => {
     try {

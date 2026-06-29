@@ -17,7 +17,7 @@ export function Participants() {
     if (!id) return;
     setLoading(true);
     participationApi.listParticipants(id)
-      .then((res: any) => setParticipants(res.data.data))
+      .then((res: any) => setParticipants(res.data.data || []))
       .catch(() => setParticipants([]))
       .finally(() => setLoading(false));
   };

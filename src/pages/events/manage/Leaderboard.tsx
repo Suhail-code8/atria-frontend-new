@@ -34,8 +34,8 @@ export function Leaderboard() {
       })
       .finally(() => setLoading(false));
 
-    // Setup Socket
-    const socket: Socket = io(env.API_URL, {
+    // Setup Socket — use SOCKET_URL which has a fallback, not API_URL which may be undefined
+    const socket: Socket = io(env.SOCKET_URL, {
       withCredentials: true
     });
     

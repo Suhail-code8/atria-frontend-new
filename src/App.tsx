@@ -31,7 +31,12 @@ import { judgeApi } from "./api/judge.api";
 const ProtectedRoute = ({ children, roles }: { children: React.ReactNode, roles?: string[] }) => {
   const { user, isLoading } = useAuth();
   
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+      <div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: 'rgba(99,102,241,0.2)', borderTopColor: '#6366f1' }} />
+      <p className="text-slate-500 text-sm font-medium animate-pulse">Verifying session...</p>
+    </div>
+  );
   if (!user) return <Navigate to="/login" replace />;
   if (roles && !roles.includes(user.role)) return <Navigate to="/" replace />;
   

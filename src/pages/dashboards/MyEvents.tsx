@@ -14,7 +14,8 @@ export function MyEvents() {
 
   useEffect(() => {
     eventsApi.getMyEvents()
-      .then((res: any) => setEvents(res.data.data))
+      .then((res: any) => setEvents(res.data.data || []))
+      .catch(() => setEvents([]))
       .finally(() => setLoading(false));
   }, [user]);
 
