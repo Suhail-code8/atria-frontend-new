@@ -25,6 +25,7 @@ import { ManualResults } from "./pages/events/manage/ManualResults";
 import { Judges } from "./pages/events/manage/Judges";
 import { JudgeAssignments } from "./pages/dashboards/JudgeAssignments";
 import { JudgeEventConsole } from "./pages/events/JudgeEventConsole";
+import { NotFound } from "./pages/NotFound";
 import { useEffect, useState } from "react";
 import { judgeApi } from "./api/judge.api";
 
@@ -126,6 +127,9 @@ function App() {
             <Route path="events/:id/judge" element={<JudgeProtectedRoute><JudgeEventConsole /></JudgeProtectedRoute>} />
 
             <Route path="events/create" element={<ProtectedRoute roles={['ORGANIZER']}><CreateEvent /></ProtectedRoute>} />
+            
+            {/* Catch-all 404 Route */}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
     </BrowserRouter>
