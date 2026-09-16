@@ -14,4 +14,4 @@ services:
 networks:
   proxy-network:
     external: true
-    name: npm_proxy   # Change this to match your Nginx Proxy Manager network name
+    name: nginx-proxy-manager_default
