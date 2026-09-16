@@ -50,16 +50,32 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            set -e
             cd ~/atria-frontend
 
-            echo "Loading Docker image..."
+            echo "==> Loading Docker image..."
             docker load < atria-frontend.tar.gz
 
-            echo "Restarting container..."
-            docker compose down
+            echo "==> Stopping existing container..."
+            docker compose down || true
+
+            echo "==> Starting container..."
             docker compose up -d
 
-            echo "Cleaning up old images..."
+            echo "==> Waiting 5s for container to stabilise..."
+            sleep 5
+
+            echo "==> Verifying container is running..."
+            if [ "$(docker inspect -f '{{.State.Running}}' atria-frontend 2>/dev/null)" != "true" ]; then
+              echo "ERROR: Container failed to start! Logs:"
+              docker logs atria-frontend --tail 50
+              exit 1
+            fi
+
+            echo "==> Container status:"
+            docker ps | grep atria-frontend
+
+            echo "==> Cleaning up old images..."
             docker image prune -f
 
             echo "Deployment complete!"
