@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: atria-frontend:latest
+    container_name: atria-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"   # Nginx Proxy Manager will proxy to port 3000
+    networks:
+      - proxy-network
+
+# Connect to the same Docker network as Nginx Proxy Manager
+networks:
+  proxy-network:
+    external: true
+    name: npm_proxy   # Change this to match your Nginx Proxy Manager network name

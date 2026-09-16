@@ -1,4 +1,4 @@
-name: Deploy Frontend to AWS EC2
+name: Deploy Frontend to AWS EC2 (Docker)
 
 on:
   push:
@@ -7,43 +7,42 @@ on:
 
 jobs:
   deploy:
-    name: Build & Deploy to EC2
+    name: Build Docker Image & Deploy to EC2
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the latest code
+      # 1. Checkout latest code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Set up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      # 2. Build Docker image on the GitHub runner,
+      #    injecting all VITE_* env vars as build args from GitHub Secrets
+      - name: Build Docker Image
+        run: |
+          docker build \
+            --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
+            --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }} \
+            --build-arg VITE_RAZORPAY_KEY_ID=${{ secrets.VITE_RAZORPAY_KEY_ID }} \
+            -t atria-frontend:latest \
+            .
 
-      # 3. Install dependencies
-      - name: Install Dependencies
-        run: npm ci
+      # 3. Save the image as a tar archive
+      - name: Save Docker Image as Tar
+        run: docker save atria-frontend:latest | gzip > atria-frontend.tar.gz
 
-      # 4. Build the production bundle
-      - name: Build Project
-        run: npm run build
-
-      # 5. Copy the built dist/ folder to the EC2 server via SCP
-      - name: Deploy dist/ to EC2 via SCP
+      # 4. Upload the image tarball to EC2 via SCP
+      - name: Upload Image to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          source: "dist/"
-          target: ${{ secrets.EC2_TARGET_DIR }}
-          strip_components: 1
+          source: "atria-frontend.tar.gz,docker-compose.yml"
+          target: "~/atria-frontend"
 
-      # 6. Reload Nginx to pick up any changes
-      - name: Reload Nginx
+      # 5. SSH into EC2: load image, restart container via docker-compose
+      - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -51,5 +50,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            sudo systemctl reload nginx
+            cd ~/atria-frontend
+
+            echo "Loading Docker image..."
+            docker load < atria-frontend.tar.gz
+
+            echo "Restarting container..."
+            docker compose down
+            docker compose up -d
+
+            echo "Cleaning up old images..."
+            docker image prune -f
+
             echo "Deployment complete!"
