@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# Atria Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Atria is an event platform for participants, organizers, and judges. This repository contains the React and TypeScript single-page application; the API lives in [atria-backend](https://github.com/Suhail-code8/atria-backend).
 
-Currently, two official plugins are available:
+## What the frontend supports
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Public event discovery and event detail pages
+- Account registration and sign-in
+- Role-aware participant, organizer, and judge dashboards
+- Organizer tools for event setup, participants, announcements, competitions, review, scoring, and results
+- API requests and real-time updates through the backend
 
-## React Compiler
+The interface uses React, TypeScript, Vite, React Router, Tailwind CSS, Axios, and Socket.IO Client.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run locally
 
-## Expanding the ESLint configuration
+### Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js compatible with the Vite version in this project
+- npm
+- The Atria backend running locally on port 5000, with MongoDB and its required service configuration
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Install and start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Vite serves the frontend at [http://localhost:3000](http://localhost:3000). The development server forwards requests under `/api` to `http://localhost:5000`; start the backend separately for authenticated and live data features.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Available scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Start the local Vite development server |
+| `npm run build` | Run TypeScript project checks and create a production build |
+| `npm run preview` | Preview the generated build locally |
+| `npm run lint` | Run ESLint |
+
+## Project map
+
+- `src/pages` — public pages and role-specific screens
+- `src/layout` — shared application and event navigation
+- `src/components` — reusable UI and feature components
+- `src/api` — API clients
+- `src/auth` — authentication state and route guards
+- `src/types` — shared frontend data types
+
+## Deployment notes
+
+The frontend expects the API at the same origin under `/api`. The production web server must serve the built frontend and route `/api` requests to the backend. Keep secrets on the backend; do not place private credentials in frontend environment variables.
+
+## Project status
+
+Atria is a learning project and an in-progress event-platform concept. Features and integrations depend on the backend and deployment configuration. Do not present demo data or local setup as evidence of production usage.
