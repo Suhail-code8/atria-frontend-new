@@ -38,10 +38,10 @@ export function AppLayout() {
       <nav
         className="sticky top-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.7)",
+          background: scrolled ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.82)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderBottom: scrolled ? "1px solid rgba(226,232,240,0.8)" : "1px solid transparent",
+          borderBottom: scrolled ? "1px solid rgba(226,232,240,0.8)" : "1px solid rgba(226,232,240,0.4)",
           boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.06)" : "none",
         }}
       >
@@ -200,3 +200,4 @@ export function AppLayout() {
     </div>
   );
 }
+
