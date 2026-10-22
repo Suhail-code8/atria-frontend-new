@@ -8,8 +8,6 @@ export function AppLayout() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
-  const useDarkNav = isHomePage && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -28,7 +26,7 @@ export function AppLayout() {
     <Link
       to={to}
       id={id}
-      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${useDarkNav ? "text-white/75 hover:text-white hover:bg-white/10" : "text-slate-600 hover:text-indigo-600 hover:bg-indigo-50"}`}
+      className="px-3 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200"
     >
       {children}
     </Link>
@@ -40,10 +38,10 @@ export function AppLayout() {
       <nav
         className="sticky top-0 z-50 transition-all duration-300"
         style={{
-          background: useDarkNav ? "rgba(23,19,36,0.82)" : scrolled ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.7)",
+          background: scrolled ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.82)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderBottom: useDarkNav ? "1px solid rgba(255,255,255,0.1)" : scrolled ? "1px solid rgba(226,232,240,0.8)" : "1px solid transparent",
+          borderBottom: scrolled ? "1px solid rgba(226,232,240,0.8)" : "1px solid rgba(226,232,240,0.4)",
           boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.06)" : "none",
         }}
       >
@@ -128,7 +126,7 @@ export function AppLayout() {
 
           {/* Mobile hamburger */}
           <button
-            className={`md:hidden p-2 rounded-xl transition-colors ${useDarkNav ? "text-white hover:bg-white/10" : "text-slate-600 hover:bg-slate-100"}`}
+            className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
